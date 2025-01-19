@@ -7,7 +7,7 @@ interface Props {
 
 const { domain } = Astro.props;
 
-let error = true;
+let error = false;
 
 const result = await new Promise<string>((res, rej) => {
   whois.lookup(domain, (err, data) => {
@@ -34,8 +34,7 @@ const whoisData = result.toString().trim();
       {domain}
     </div>
 
-    <div class="font-mono break-words whitespace-pre-wrap">
-      {error ? "Looks like something went wrong..." : whoisData}
-    </div>
+    <!-- prettier-ignore -->
+    <div class="font-mono break-words whitespace-pre-wrap">{error ? "Data is not available..." : whoisData}</div>
   </div>
 </div>

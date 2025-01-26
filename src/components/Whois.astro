@@ -10,11 +10,11 @@ const { domain } = Astro.props;
 let error = false;
 
 const result = await new Promise<string>((res, rej) => {
-  whois.lookup(domain, (err, data) => {
-    if (err) {
-      rej(err);
-    }
-    res(data);
+  whois.lookup(domain, { verbose: true }, (err, data) => {
+    if (err) return rej(err);
+    if (!Array.isArray(data)) return rej("Data is not available...");
+
+    res(data.reverse().find((d) => d.data.includes(domain))?.data || "");
   });
 }).catch(() => {
   error = true;

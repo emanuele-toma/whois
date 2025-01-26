@@ -14,7 +14,7 @@ const result = await new Promise<string>((res, rej) => {
     if (err) return rej(err);
     if (!Array.isArray(data)) return rej("Data is not available...");
 
-    res(data.reverse().find((d) => d.data.includes(domain))?.data || "");
+    res(data.reverse().find((d) => d.data.includes(domain))?.data || data[0].data);
   });
 }).catch(() => {
   error = true;

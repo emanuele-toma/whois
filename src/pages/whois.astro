@@ -6,9 +6,23 @@ import WhoisComponent from "../components/Whois.astro";
 
 const rawDomain = Astro.url.searchParams.get("domain") || "";
 const domain = rawDomain.startsWith("http") ? rawDomain : `http://${rawDomain}`;
-const host = new URL(domain).host;
+let host = "";
+try {
+  host = new URL(domain).host;
+} catch (_) {
+  host = "";
+}
 ---
 
 <Layout>
-  <WhoisComponent domain={host} />
+  {host && <WhoisComponent domain={host} />}
+  {
+    !host && (
+      <a href="/">
+        <div class="flex justify-center items-center w-full h-screen">
+          <img src="/no-whois.png" alt="No domain provided" />
+        </div>
+      </a>
+    )
+  }
 </Layout>
